@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+  <meta charset = "UTF-8">
+  <link rel = "stylesheet" href="style.css">
+  <title> My Form </title>
+</head>
+
+<body>
+    <script src = "index.js"></script>
+  <header>
+    <h1>Blood Bank Database</h1>
+  </header>
+  
+  <form action="/add" method="POST">
+    <fieldset>
+      <h3>Add details</h3>
+      <label>Name</label>
+      <input type ="text" id= 'name' name="name" required>
+      <br><br>
+      <label>email</label>
+      <input type="text" id= "email" name="email" required>
+      <br><br>
+      <button type ="submit">Submit</button>
+    </fieldset>
+  </form>
+  
+  <!-- <form action="/index.users/:id" method="GET" id="view-user"> -->
+    <form action="/usersid/:id" method="get">
+    <fieldset>
+      <h3>View details</h3>
+      <label>ID</label>
+      <input type="number" id="id-user" name="id" required>
+      <br><br>
+      <button type ="submit">Submit</button>
+      <br><br><br>
+    </fieldset>
+  </form>
+  <!-- <form action="/get-user" method="post">
+    <label for="user-id">Enter User ID:</label>
+    <input type="text" id="user-id" name="id" required>
+    <br>
+    <button type="submit">Get User</button>
+  </form> -->
+ 
+  <!-- <form action="/update" method="POST">
+    <fieldset>
+      <h3>Update an employee</h3>
+      <label>Employee ID</label>
+      <input type ="text" id = 'empID' name="id" required>
+      <br><br>
+      <label>New Name</label>
+      <input type="text" id = "name" name="name" required>
+      <br><br>
+      <button type ="reset">Reset</button>
+      <button type ="submit">Submit</button>
+    </fieldset>
+  </form>
+ 
+  <form action="/delete" method="POST">
+    <fieldset>
+      <h3>Delete an employee</h3>
+      <label>Employee ID</label>
+      <input type ="text" id = 'empID' name="id" required>
+      <br><br>
+      <button type ="reset">Reset</button>
+      <button type ="submit">Submit</button>
+      <br><br><br>
+    </fieldset>
+  </form> -->
+ 
+  <!-- <footer>
+    <hr>
+    <h4>Please enter '<code>http://localhost:3000/close</code>' to close
+    the database connection before closing this window</h4>
+  </footer> -->
+  <script src="api.js"></script>
+ </body>
+</html>
