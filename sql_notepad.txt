@@ -1,0 +1,154 @@
+-- Update the 'volunteer' table to calculate duration dynamically
+UPDATE volunteer
+SET duration = age(current_date, join_date)
+WHERE duration IS NULL;
+//database
+create table employee(eid int primary key, fname varchar(20), lname varchar(20),join_date date);
+create table salared_employee(eid int primary key ,salary money);
+create table volunteer(eid int primary key,duration interval);
+create table person(pid int primary key, gender varchar(10),age int , blood_grp varchar(3),fname varchar(20),lname varchar(20),city varchar(25),pin_code varchar (10),email varchar(255),eid int );
+create table emp_equip(eqid int ,eid int ,primary key(eid,eqid));
+create table donor(pid int primary key,quantity_don int);
+create table recipient(pid int primary key, curr_disease varchar(30) NOT NULL);
+create table bloodBK_emp(eid int ,stid int ,primary key(eid,stid));
+create table blood_stock(stid int primary key, add_date date,quantity int,type varchar(20));
+create table bloodStk_eqp(eqid int ,rid int ,primary key(eqid,rid));
+create table equipment(eqid int primary key, eq_type varchar(20),quantity int,cost money ,condition char(1));
+create table blood_report(rid int primary key, WBC int, RBC int , Haemoglobin int, blood_grp varchar(20),stid int, pid int);
+-- Adding sample data to 'employee' table
+INSERT INTO employee (eid, fname, lname, join_date) 
+VALUES
+    (1, 'John', 'Doe', '2023-01-10'),
+    (2, 'Alice', 'Smith', '2023-02-15'),
+    (3, 'Michael', 'Johnson', '2023-03-20');
+    -- Add more tuples as needed;
+
+-- Adding sample data to 'salared_employee' table
+INSERT INTO salared_employee (eid, salary)
+VALUES
+    (1, 50000),
+    (2, 60000),
+    (3, 55000);
+    -- Add more tuples as needed;
+
+-- Adding sample data to 'volunteer' table
+INSERT INTO volunteer (eid, duration)
+VALUES
+    (1, INTERVAL '3 months'),
+    (2, INTERVAL '6 months'),
+    (3, INTERVAL '1 year');
+    -- Add more tuples as needed;
+
+-- Adding sample data to 'person' table
+INSERT INTO person (pid, gender, age, blood_grp, fname, lname, city, pin_code, email, eid)
+VALUES
+    (101, 'Male', 30, 'AB+', 'Michael', 'Johnson', 'New York', '10001', 'michael@example.com', 1),
+    (102, 'Female', 25, 'A+', 'Emily', 'Davis', 'Los Angeles', '90001', 'emily@example.com', 2),
+    (103, 'Male', 35, 'O-', 'David', 'Brown', 'Chicago', '60001', 'david@example.com', 3),
+	(201,'Male',30,'AB+','Sparsh','Gupta','Haridwar','249401','sparsh@gmai.com',3),
+	(202,'Male',61,'O-','Shashwat','Pandey','Karachi','05444','shashwat@gmai.com',2),
+	(203,'Female',18,'A+','Veda','Singh','Amravati','444604','veda@hotmail.com',1);
+    -- Add more tuples as needed;
+
+-- Adding sample data to 'emp_equip' table
+INSERT INTO emp_equip (eqid, eid)
+VALUES
+    (201, 1),
+    (202, 2),
+    (203, 3);
+    -- Add more tuples as needed;
+
+-- Adding sample data to 'donor' table
+INSERT INTO donor (pid, quantity_don)
+VALUES
+    (101, 300),
+    (102, 250),
+    (103, 400);
+    -- Add more tuples as needed;
+
+-- Adding sample data to 'recipient' table
+INSERT INTO recipient (pid, curr_disease)
+VALUES
+    (201, 'Cancer'),
+    (202, 'Diabetes'),
+    (203, 'Anemia');
+    -- Add more tuples as needed;
+
+-- Adding sample data to 'bloodBK_emp' table
+INSERT INTO bloodBK_emp (eid, stid)
+VALUES
+    (1, 501),
+    (2, 502),
+    (3, 503);
+    -- Add more tuples as needed;
+
+-- Adding sample data to 'blood_stock' table
+INSERT INTO blood_stock (stid, add_date, quantity, type)
+VALUES
+    (501, '2024-01-01', 200, 'Whole Blood'),
+    (502, '2024-01-05', 300, 'Platelets'),
+    (503, '2024-01-10', 150, 'Plasma');
+    -- Add more tuples as needed;
+
+-- Adding sample data to 'bloodStk_eqp' table
+INSERT INTO bloodStk_eqp (eqid, rid)
+VALUES
+    (201, 301),
+    (202, 302),
+    (203, 303);
+    -- Add more tuples as needed;
+
+-- Adding sample data to 'equipment' table
+INSERT INTO equipment (eqid, eq_type, quantity, cost, condition)
+VALUES
+    (201, 'Centrifuge', 5, 5000.00, 'G'),
+    (202, 'Refrigerator', 3, 3000.00, 'G'),
+    (203, 'Freezer', 2, 4000.00, 'G');
+    -- Add more tuples as needed;
+
+-- Adding sample data to 'blood_report' table
+INSERT INTO blood_report (rid, WBC, RBC, Haemoglobin, blood_grp, stid, pid)
+VALUES
+    (301, 7000, 5000000, 14, 'O+', 501, 101),
+    (302, 8000, 4500000, 13, 'A-', 502, 102),
+    (303, 9000, 5500000, 15, 'B+', 503, 103);
+    -- Add more tuples as needed;
+
+-- Adding foreign key constraints to 'emp_equip' table
+ALTER TABLE emp_equip
+ADD CONSTRAINT fk_emp_equip_employee FOREIGN KEY (eid) REFERENCES employee(eid),
+ADD CONSTRAINT fk_emp_equip_equipment FOREIGN KEY (eqid) REFERENCES equipment(eqid);
+
+-- Adding foreign key constraints to 'person' table
+ALTER TABLE person
+ADD CONSTRAINT fk_person_employee FOREIGN KEY (eid) REFERENCES employee(eid);
+
+-- Adding foreign key constraints to 'donor' table
+ALTER TABLE donor
+ADD CONSTRAINT fk_donor_person FOREIGN KEY (pid) REFERENCES person(pid);
+
+-- Adding foreign key constraints to 'recipient' table
+ALTER TABLE recipient
+ADD CONSTRAINT fk_recipient_person FOREIGN KEY (pid) REFERENCES person(pid);
+
+--Adding foreign key constraint to volunteer and salares_employee table
+-- Adding foreign key constraint to 'volunteer' table
+ALTER TABLE volunteer
+ADD CONSTRAINT fk_volunteer_employee FOREIGN KEY (eid) REFERENCES employee(eid);
+
+-- Adding foreign key constraint to 'salared_employee' table
+ALTER TABLE salared_employee
+ADD CONSTRAINT fk_salared_employee_employee FOREIGN KEY (eid) REFERENCES employee(eid);
+--Adding foreign key constraint to blood_report
+ALTER TABLE blood_report ADD CONSTRAINT fk_blood_report_person FOREIGN KEY(pid) REFERENCES person(pid),
+ADD CONSTRAINT fk_blood_report_blood_blood_stock FOREIGN KEY(stid) REFERENCES blood_stock(stid);
+
+-- Adding foreign key constraints to 'bloodBK_emp' table
+ALTER TABLE bloodBK_emp
+ADD CONSTRAINT fk_bloodBK_emp_employee FOREIGN KEY (eid) REFERENCES employee(eid),
+ADD CONSTRAINT fk_bloodBK_emp_blood_stock FOREIGN KEY (stid) REFERENCES blood_stock(stid);
+
+-- Adding foreign key constraints to 'bloodStk_eqp' table
+ALTER TABLE bloodStk_eqp
+ADD CONSTRAINT fk_bloodStk_eqp_blood_report FOREIGN KEY (rid) REFERENCES blood_report(rid),
+ADD CONSTRAINT fk_bloodStk_eqp_equipment FOREIGN KEY (eqid) REFERENCES equipment(eqid);
